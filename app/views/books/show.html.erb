@@ -1,4 +1,8 @@
-<h2>タイトル</h2>
-<p><%= @book.title %></p>
-<h2>本文</h2>
-<p><%= @book.body %></p>
+<p>
+  <strong>title</strong> <%= @book.title %>
+</p>
+<p>
+  <strong>body</strong> <%= @book.body %>
+</p>
+<%= link_to 'Edit', edit_book_path(@book) %>
+<%= link_to "back", books_path %>
