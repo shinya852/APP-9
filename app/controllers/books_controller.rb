@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   def index
     @books = Book.all
     @book = Book.new#追記
-  
+
   end
 
   def show
@@ -16,25 +16,37 @@ class BooksController < ApplicationController
   def create
      @book = Book.new(book_params)
      if @book.save
-      redirect_to books_path(@book.id)
+       flash[:notice] = "successfully"
+      redirect_to book_path(@book.id)
      else
-      render :new
+      @books = Book.all
+      render :index
      end
+
   end
 
   def edit
     @book = Book.find(params[:id])
   end
+
   def update
     book = Book.find(params[:id])
-    book.update(book_params)
-    redirect_to books_path(book.id)
+    if book.update(book_params)
+      flash[:notice] = "successfully"
+      redirect_to book_path(book.id)
+    else
+      render :edit
+    end
   end
 
   def destroy
     book = Book.find(params[:id])  # データ（レコード）を1件取得
-    book.destroy  # データ（レコード）を削除
-    redirect_to books_path  # 投稿一覧画面へリダイレクト  end
+    if book.destroy  # データ（レコード）を削除
+     flash[:notice] = "successfully"
+      redirect_to books_path  # 投稿一覧画面へリダイレクト  end
+    else
+      render :new
+    end
   end
 
   def book_params
